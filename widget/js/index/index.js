@@ -5,7 +5,9 @@ var currentPage = '';
 var navs;
 
 function refreshNav(page) {
+    navs = navs || $('.navbar-nav li');
     if (!navs)return;
+    
     navs
         .removeClass('active')
         .find('a[href="#' + page + '"]')
@@ -14,9 +16,8 @@ function refreshNav(page) {
 }
 
 function home() {
-    if (currentPage === 'home') return;
-    
     var page = 'home';
+    if (currentPage === page) return;
     currentPage = page;
     BigPipe.load({
         url: '/pagelets',
@@ -29,40 +30,38 @@ function home() {
 }
 
 function contact() {
-    if (currentPage === 'contact') return;
-        
-    currentPage = 'contact';
+    var page = 'contact';
+    if (currentPage === page) return;
+    currentPage = page;
     BigPipe.load({
         url: '/pagelets',
-        pagelet: currentPage,
+        pagelet: page,
         container: 'pages-container',
         cb: function() {
-            refreshNav(currentPage);
+            page === currentPage && refreshNav(page);
         }
     });
 }
 
 function about() {
-    if (currentPage === 'about') return;
-        
-    currentPage = 'about';
+    var page = 'about';
+    if (currentPage === page) return;
+    currentPage = page;
     BigPipe.load({
         url: '/pagelets',
-        pagelet: currentPage,
+        pagelet: page,
         container: 'pages-container',
         cb: function() {
-            refreshNav(currentPage);
+            page === currentPage && refreshNav(page);
         }
     });
 }
 
 exports.init = function() {
-    var navs = $('.navbar-nav li');
     var router = new Router({
         home: home,
         contact: contact,
         about: about
     });
-    
     router.init('home');
 };
