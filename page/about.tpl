@@ -5,7 +5,7 @@
         {% if isAjax %}
             {% widget "spa:widget/pagelets/about/about.tpl" id="body" mode="quickling" for="pages-container" %}
         {% else %}
-            {% widget "spa:widget/pagelets/about/about.tpl" %}
+            {% widget "spa:widget/pagelets/about/about.tpl" id="body" mode="async" for="pages-container" %}
         {% endif %}
      </div>
      
