@@ -1,6 +1,3 @@
-var director = require('../router/director.js');
-var Router = director.Router;
-
 var currentPage = '';
 var navs;
 
@@ -10,58 +7,31 @@ function refreshNav(page) {
     
     navs
         .removeClass('active')
-        .find('a[href="#' + page + '"]')
+        .find('a[href="' + page + '"]')
         .parent()
         .addClass('active');
 }
 
-function home() {
-    var page = 'home';
-    if (currentPage === page) return;
-    currentPage = page;
-    BigPipe.load({
-        url: '/pagelets',
-        pagelet: page,
-        container: 'pages-container',
-        cb: function() {
-            page === currentPage && refreshNav(page);
-        }
-    });
-}
-
-function contact() {
-    var page = 'contact';
-    if (currentPage === page) return;
-    currentPage = page;
-    BigPipe.load({
-        url: '/pagelets',
-        pagelet: page,
-        container: 'pages-container',
-        cb: function() {
-            page === currentPage && refreshNav(page);
-        }
-    });
-}
-
-function about() {
-    var page = 'about';
-    if (currentPage === page) return;
-    currentPage = page;
-    BigPipe.load({
-        url: '/pagelets',
-        pagelet: page,
-        container: 'pages-container',
-        cb: function() {
-            page === currentPage && refreshNav(page);
-        }
-    });
-}
-
 exports.init = function() {
-    var router = new Router({
-        home: home,
-        contact: contact,
-        about: about
+    var nav = $('.navbar-nav');
+
+    var curPage;
+    nav.on('click', 'a', function(e) {
+        var href = $(this).attr('href');
+        curPage = href;
+
+        BigPipe.load({
+            url: href,
+            pagelet: 'body',
+            cb: function() {
+                if (curPage === href) {
+                    refreshNav(href);
+                    
+                    window.history && window.history.pushState(null, '', href);   
+                }
+            }
+        })
+        
+        return false;
     });
-    router.init('home');
 };

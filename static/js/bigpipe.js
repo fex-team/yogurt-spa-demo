@@ -270,7 +270,7 @@
             load: function(pagelets) {
                 var args = [];
                 var currentPageUrl = location.href;
-                var obj, i, id, cb, remaining, search, url, param;
+                var obj, i, id, cb, remaining, search, url, param, container;
 
                 // convert arguments.
                 // so we can accept
@@ -301,11 +301,12 @@
                 for(i = remaining - 1; i >= 0; i--) {
                     id = pagelets[i];
                     args.push('pagelets[]=' + id);
+                    container = obj.container && obj.container[id] || obj.container;
                     config[id] = {
-                        container: obj.container && obj.container[id] ||
-                            obj.container,
                         done: cb
-                    }
+                    };
+
+                    container && (config[id].container = container);
                 }
 
                 param = obj.param ? '&' + obj.param : '';
