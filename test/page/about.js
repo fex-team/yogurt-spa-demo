@@ -7,8 +7,7 @@ var parseUrl = require('url').parse;
 module.exports = function(req, res, done) {
     var url = parseUrl(req.originalUrl || req.url);
 
-    globalData.isAjax = req.header('X-Requested-With') === 'XMLHttpRequest';
-
+   
     globalData.navs.some(function(nav, key) {
         if (nav.url === url.pathname) {
             globalData.navs[key].active = true;
