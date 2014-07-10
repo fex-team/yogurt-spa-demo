@@ -22,7 +22,7 @@ exports.init = function() {
 
         BigPipe.load({
             url: href,
-            pagelet: 'body',
+            pagelet: 'spage',
             cb: function() {
                 if (curPage === href) {
                     refreshNav(href);

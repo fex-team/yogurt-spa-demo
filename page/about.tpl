@@ -2,11 +2,7 @@
 
 {% block content %}
      <div id="pages-container">
-        {% if isAjax %}
-            {% widget "spa:widget/pagelets/about/about.tpl" id="body" mode="quickling" for="pages-container" %}
-        {% else %}
-            {% widget "spa:widget/pagelets/about/about.tpl" id="body" mode="async" for="pages-container" %}
-        {% endif %}
+        {% spage "spa:widget/pagelets/about/about.tpl" for="pages-container" %}
      </div>
      
      {% script %}
