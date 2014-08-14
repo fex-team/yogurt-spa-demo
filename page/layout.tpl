@@ -13,6 +13,7 @@
         {% require "spa:static/css/bootstrap-theme.css" %}
         {% require "spa:static/css/style.css" %}
         {% require "spa:static/js/bigpipe.js" %}
+        {% require "spa:static/js/page.js" %}
         {% require "spa:static/js/jquery-1.10.2.js" %}
         {% require "spa:static/js/bootstrap.js" %}
     {% endhead %}
