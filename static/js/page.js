@@ -161,10 +161,10 @@
             url: url
         }, opt || {});
 
-        Page.trigger('page-start', url);
+        Page.trigger('pagestart', url);
         opt.cb = function() {
             curPageUrl = url;
-            Page.trigger('page-done', url);
+            Page.trigger('pagedone', url);
             callback && callback();
         };
         BigPipe.load(opt);

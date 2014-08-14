@@ -350,7 +350,7 @@
             // - after chunk output pagelet.
             // - after async load quickling pagelet.
             onPageletArrive: function(obj) {
-                this.trigger('pagelet-arrive', obj);
+                this.trigger('pageletarrive', obj);
 
                 var pagelet = PageLet(obj, function() {
                     var item;
@@ -358,9 +358,9 @@
                     // enforce js executed after dom inserted.
                     if (!--count) {
                         while ((item = pagelets.shift())) {
-                            BigPipe.trigger('pagelet-insert', pagelet, obj);
+                            BigPipe.trigger('pageletinsert', pagelet, obj);
                             item.loadJs(function() {
-                                BigPipe.trigger('pagelet-done', pagelet, obj);
+                                BigPipe.trigger('pageletdone', pagelet, obj);
                             });
                         }
                     }
@@ -426,7 +426,7 @@
                     id = pagelets[i];
                     args.push('pagelets[]=' + id);
                     container = obj.container && obj.container[id] || obj.container;
-                    container && BigPipe.once('pagelet-arrive', function(obj) {
+                    container && BigPipe.once('pageletarrive', function(obj) {
                         obj.container = container;
                     });
                 }
@@ -436,9 +436,9 @@
                 search = search ? (search + '&') : '?';
                 url = (obj.url || '') + search + args.join('&') + param;
 
-                cb = obj.cb && BigPipe.on('pagelet-done', function() {
+                cb = obj.cb && BigPipe.on('pageletdone', function() {
                     if (!--remaining) {
-                        BigPipe.off('pagelet-done', arguments.callee);
+                        BigPipe.off('pageletdone', arguments.callee);
                         obj.cb && obj.cb();
                     }
                 });
