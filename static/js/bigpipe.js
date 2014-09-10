@@ -432,7 +432,7 @@
 
                 BigPipe.on('pageletarrive', function(obj) {
                     var id = obj.id;
-                    container[id] && (obj.container = container[id]);
+                    containers[id] && (obj.container = containers[id]);
                 });
 
                 param = obj.param ? '&' + obj.param : '';
