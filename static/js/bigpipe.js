@@ -298,13 +298,13 @@
                     (data.container || document.getElementById(data.id));
 
                 if (data.extend) {
-                    dom.innerHTML = data.html;
-                } else {
                     temp = document.createElement('div');
                     temp.innerHTML = data.html;
                     while (temp.firstChild) {
                         dom.appendChild(temp.firstChild);
                     }
+                } else {
+                    dom.innerHTML = data.html;
                 }
 
                 onDomInserted();
