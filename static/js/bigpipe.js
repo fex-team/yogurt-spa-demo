@@ -121,7 +121,7 @@
             }
         }
         return a;
-    }    
+    }
 
     var Util = {
         loadJs: loadJs,
@@ -398,6 +398,7 @@
             load: function(pagelets) {
                 var args = [];
                 var currentPageUrl = location.href;
+                var containers = {};
                 var obj, i, id, cb, remaining, search, url, param, container;
 
                 // convert arguments.
@@ -426,10 +427,13 @@
                     id = pagelets[i];
                     args.push('pagelets[]=' + id);
                     container = obj.container && obj.container[id] || obj.container;
-                    container && BigPipe.once('pageletarrive', function(obj) {
-                        obj.container = container;
-                    });
+                    containers[id] = container;
                 }
+
+                BigPipe.on('pageletarrive', function(obj) {
+                    var id = obj.id;
+                    container[id] && (obj.container = container[id]);
+                });
 
                 param = obj.param ? '&' + obj.param : '';
                 search = location.search;
