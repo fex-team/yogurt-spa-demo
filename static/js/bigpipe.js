@@ -32,7 +32,7 @@
 
         script.setAttribute('src', url);
         script.setAttribute('type', 'text/javascript');
-        script.onload = wrap;
+        script.onload = script.onerror = wrap;
         script.onreadystatechange = wrap;
         head.appendChild(script);
     }
@@ -284,7 +284,7 @@
             }
 
             var insertDom = function() {
-                var i, len, dom, node, text, scriptText;
+                var i, len, dom, node, text, scriptText, temp;
 
                 // insert style code
                 if (data.styles && data.styles.length) {
@@ -297,7 +297,15 @@
                     document.getElementById(data.container) :
                     (data.container || document.getElementById(data.id));
 
-                dom.innerHTML = data.html;
+                if (data.extend) {
+                    dom.innerHTML = data.html;
+                } else {
+                    temp = document.createElement('div');
+                    temp.innerHTML = data.html;
+                    while (temp.firstChild) {
+                        dom.appendChild(temp.firstChild);
+                    }
+                }
 
                 onDomInserted();
             }
