@@ -403,6 +403,7 @@
             //                    some document node with the same id. With this
             //                    option the pagelet can be renndered in
             //                    specified document node.
+            //   - extend
             load: function(pagelets) {
                 var args = [];
                 var currentPageUrl = location.href;
@@ -438,19 +439,22 @@
                     containers[id] = container;
                 }
 
-                BigPipe.on('pageletarrive', function(obj) {
-                    var id = obj.id;
-                    containers[id] && (obj.container = containers[id]);
-                });
+                function onPageArrive(data) {
+                    var id = data.id;
+                    containers[id] && (data.container = containers[id]);
+                    data.extend = obj.extend;
+                }
 
+                BigPipe.on('pageletarrive', onPageArrive);
                 param = obj.param ? '&' + obj.param : '';
                 search = location.search;
                 search = search ? (search + '&') : '?';
                 url = (obj.url || '') + search + args.join('&') + param;
 
-                cb = obj.cb && BigPipe.on('pageletdone', function() {
+                BigPipe.on('pageletdone', function() {
                     if (!--remaining) {
                         BigPipe.off('pageletdone', arguments.callee);
+                        BigPipe.off('pageletarrive', onPageArrive);
                         obj.cb && obj.cb();
                     }
                 });
